@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--scan为true时配置文件发生改变时会被加载，默认为true-->
+<!--scanPeriod监测周期 默认单位为毫秒-->
+<!--debug实时打印出logback内部的信息-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--定义参数常量-->
+    <!--TRACE<DEBUG<INFO<WARN<ERROR-->
+    <!--logger.trace("msg") 显示比trace级别大的-->
+    <property name="log.level" value="debug"/>
+    <property name="log.maxHistory" value="30"/>
+    <!--${catalina.base}  tomcat的安装文件-->
+    <property name="log.filePath" value="${catalina.base}/logs/webapps"/>
+    <!--日志输出格式-->
+    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss:SSS}[%thread] %-5level %logger{50} - %msg%n"/>
+    <!--输出到控制台的-->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <!--转换字符并将其输出到文件中-->
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+    <!--DEBUG-->
+    <!--RollingFileAppender会生成在文件中并滚动的生成新的文件记录日志-->
+    <appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--文件路径  记录在哪里 文件到了一定的数量或时间，则存入fileNamePattern-->
+        <file>${log.filePath}/debug.log</file>
+        <!--滚动策略 每天滚动生成名称为fileNamePattern配置信息的文件-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--文件名称-->
+            <fileNamePattern>
+                ${log.filePath}/debug/debug.%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <!--文件最大保存历史数量 log.gz-->
+            <maxHistory>${log.maxHistory}</maxHistory>
+        </rollingPolicy>
+        <!--转换格式并将其输出到文件中-->
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <!--过滤非debug级别的信息-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <!--如果匹配则保留-->
+            <onMatch>ACCEPT</onMatch>
+            <!--如果不匹配则拒绝掉-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!--INFO-->
+    <appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--文件路径-->
+        <file>${log.filePath}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--文件名称-->
+            <fileNamePattern>
+                ${log.filePath}/info/info.%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <!--文件最大保存历史数量 数量到了之后会删除最早一天的-->
+            <maxHistory>${log.maxHistory}</maxHistory>
+        </rollingPolicy>
+        <!--转换字符并将其输出到文件中-->
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <!--如果匹配则保留-->
+            <onMatch>ACCEPT</onMatch>
+            <!--如果不匹配则拒绝掉-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!--ERROR-->
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--文件路径-->
+        <file>${log.filePath}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--文件名称-->
+            <fileNamePattern>
+                ${log.filePath}/error/error.%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <!--文件最大保存历史数量-->
+            <maxHistory>${log.maxHistory}</maxHistory>
+        </rollingPolicy>
+        <!--转换字符并将其输出到文件中-->
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <!--如果匹配则保留-->
+            <onMatch>ACCEPT</onMatch>
+            <!--如果不匹配则拒绝掉-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!--name 监控哪个路径的日志 level 最低级别 只用logger跟工程对应，即只有logger产生输出（root没有）-->
+    <!--logger的level没有写则默认继承root的level-->
+    <!--additivity 为true时 logger会将父类（root）下的appender-ref 也放进来即logger也会在控制台输出相关信息-->
+    <!--但是level是基于自己的level即debug 即也会输出debug相关日志信息 而不是按照root中的info-->
+    <logger name="com.jsvc.o2o" level="${log.level}" additivity="true">
+        <appender-ref ref="debugAppender"/>
+        <appender-ref ref="infoAppender"/>
+        <appender-ref ref="errorAppender"/>
+    </logger>
+    <root level="info">
+        <appender-ref ref="consoleAppender"/>
+    </root>
+</configuration>

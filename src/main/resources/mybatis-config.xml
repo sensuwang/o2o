@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+
+        <!--使用jdbc的getGeneratedKeys获取数据库自增主键值-->
+        <setting name="useGeneratedKeys" value="true"/>
+
+        <!--使用列标签替换列名-->
+        <setting name="useColumnLabel" value="true"/>
+
+        <!--开启驼峰命名转换-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+
+
+
+    <!--&lt;!&ndash;通过${driver}直接引用value中的值&ndash;&gt;-->
+    <!--<properties resource="jdbc.properties">-->
+        <!--&lt;!&ndash;不用加resource属性&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="driver" value="com.mysql.jdbc.Driver"></property>&ndash;&gt;-->
+
+    <!--</properties>-->
+
+    <!--&lt;!&ndash;设置驼峰命名&ndash;&gt;-->
+    <!--&lt;!&ndash;<settings>&ndash;&gt;-->
+    <!--&lt;!&ndash;<setting name="mapUnderscoreToCamelCase" value="true"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</settings>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;（全局）指定别名，在其他地方可以直接使用alia中的映射名&ndash;&gt;-->
+    <!--<typeAliases>-->
+        <!--&lt;!&ndash;<typeAlias type="com.jsvc.day23.POJO.Role" alias="role"></typeAlias>&ndash;&gt;-->
+        <!--&lt;!&ndash;<typeAlias type="com.jsvc.day24.pojo.Employee" alias="employee"></typeAlias>&ndash;&gt;-->
+        <!--&lt;!&ndash;<typeAlias type="com.jsvc.day24.pojo.WorkCard" alias="wordCard"></typeAlias>&ndash;&gt;-->
+        <!--&lt;!&ndash;<typeAlias type="com.jsvc.day24.pojo.EmployeeTask" alias="employeeTask"></typeAlias>&ndash;&gt;-->
+        <!--&lt;!&ndash;<typeAlias type="com.jsvc.day24.pojo.Task" alias="task"></typeAlias>&ndash;&gt;-->
+        <!--<package name="com.jsvc.day24.pojo"></package>-->
+    <!--</typeAliases>-->
+
+    <!--&lt;!&ndash; 数据库 &ndash;&gt;-->
+    <!--<environments default="development">-->
+        <!--<environment id="development">-->
+            <!--<transactionManager type="JDBC" />-->
+            <!--<dataSource type="POOLED">-->
+                <!--<property name="driver" value="${driver}" />-->
+                <!--<property name="url" value="${url}" />-->
+                <!--<property name="username" value="${username}" />-->
+                <!--<property name="password" value="${password}" />-->
+            <!--</dataSource>-->
+        <!--</environment>-->
+    <!--</environments>-->
+
+    <!--<mappers>-->
+        <!--<mapper resource="com/jsvc/day23/mapper/RoleMapper.xml"></mapper>-->
+        <!--<mapper resource="com\jsvc\day24\mapper\EmployeeMapper.xml"></mapper>-->
+        <!--<mapper resource="com\jsvc\day24\mapper\EmployeeTaskMapper.xml"></mapper>-->
+        <!--<mapper resource="com\jsvc\day24\mapper\WorkCardMapper.xml"></mapper>-->
+        <!--<mapper resource="com\jsvc\day24\mapper\TaskMapper.xml"></mapper>-->
+        <!--<mapper resource="com\jsvc\day24\mapper\MaleEmployeeMapper.xml"></mapper>-->
+        <!--<mapper resource="com\jsvc\day24\mapper\FemaleEmployeeMapper.xml"></mapper>-->
+        <!--<mapper resource="com\jsvc\day24\mapper\RoleMapper.xml"></mapper>-->
+        <!--<mapper resource="com\jsvc\day24\mapper\UserMapper.xml"></mapper>-->
+
+        <!--&lt;!&ndash;类方式&ndash;&gt;-->
+        <!--&lt;!&ndash;<mapper class="com.jsvc.day23.mapper.RoleMapper"></mapper>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;包方式&ndash;&gt;-->
+        <!--&lt;!&ndash;<package name="com.jsvc.day23.mapper"></package>&ndash;&gt;-->
+
+
+    <!--</mappers>-->
+
+</configuration>

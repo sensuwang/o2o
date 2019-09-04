@@ -1,0 +1,16 @@
+HELP.md
+target/
+catalina.base_IS_UNDEFINED/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+# log Files
+*.log
