@@ -52,6 +52,7 @@ public class ImageUtil {
         makeDirPath(targetAddr);
         String relativeAddr = targetAddr + realFileName + extension;
         File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
+        logger.debug("current complete addr is:" + PathUtil.getImgBasePath() + relativeAddr);
         try {
             Thumbnails.of(thumbnail).size(200, 200)
                     .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/watermark.jpg")),0.25f)
