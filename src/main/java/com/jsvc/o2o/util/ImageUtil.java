@@ -9,6 +9,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -42,19 +43,19 @@ public class ImageUtil {
 
     /**
      * 处理缩略图并返回路径
-     * @param thumbnail
+     * @param thumbnailInputStream
      * @param targetAddr
      * @return
      */
-    public static String generateThumbnail(File thumbnail, String targetAddr) {
+    public static String generateThumbnail(InputStream thumbnailInputStream, String fileName, String targetAddr) {
         String realFileName = getRandomFileName();
-        String extension = getFileExtension(thumbnail);
+        String extension = getFileExtension(fileName);
         makeDirPath(targetAddr);
         String relativeAddr = targetAddr + realFileName + extension;
         File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
         logger.debug("current complete addr is:" + PathUtil.getImgBasePath() + relativeAddr);
         try {
-            Thumbnails.of(thumbnail).size(200, 200)
+            Thumbnails.of(thumbnailInputStream).size(200, 200)
                     .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/watermark.jpg")),0.25f)
                     .outputQuality(0.8f).toFile(dest);
         }catch (IOException e){
@@ -80,7 +81,7 @@ public class ImageUtil {
      * 生成随机文件名，当前年月日小时分钟秒钟+5位随机数
      * @return
      */
-    private static String getRandomFileName() {
+    public static String getRandomFileName() {
         int rannum = r.nextInt(89999) + 10000;// 大于10000 小于 99999
         String nowTimeStr = sDateFormat.format(new Date());
         return nowTimeStr + rannum;
@@ -88,11 +89,10 @@ public class ImageUtil {
 
     /**
      * 获取输入文件流的扩展名
-     * @param thumbnail
+     * @param fileName
      * @return
      */
-    private static String getFileExtension(File thumbnail) {
-        String originalFileName = thumbnail.getName();//获取文件名
-        return originalFileName.substring(originalFileName.lastIndexOf("."));
+    private static String getFileExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 }
