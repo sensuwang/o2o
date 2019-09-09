@@ -2,6 +2,8 @@ package com.jsvc.o2o.dao;
 
 import com.jsvc.o2o.entity.Shop;
 
+import java.util.List;
+
 /**
  * @ClassName ShopDao
  * @Author sensu
@@ -21,4 +23,11 @@ public interface ShopDao {
      * @return
      */
     int updateShop(Shop shop);
+
+    /**
+     * 通过id查询shop
+     * @param shopId
+     * @return
+     */
+    Shop queryByShopId(Long shopId);
 }
