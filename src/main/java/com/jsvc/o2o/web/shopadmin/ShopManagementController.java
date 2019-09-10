@@ -1,6 +1,7 @@
 package com.jsvc.o2o.web.shopadmin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jsvc.o2o.dto.ImageHolder;
 import com.jsvc.o2o.dto.ShopExecution;
 import com.jsvc.o2o.entity.Area;
 import com.jsvc.o2o.entity.PersonInfo;
@@ -173,7 +174,8 @@ public class ShopManagementController {
             shop.setOwner(owner);
             ShopExecution se;
             try {
-                se = shopService.addShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+                ImageHolder imageHolder = new ImageHolder(shopImg.getOriginalFilename(), shopImg.getInputStream());
+                se = shopService.addShop(shop, imageHolder);
                 if (se.getState() == ShopStateEnum.CHECK.getState()){
                     modelMap.put("success", true);
                     List<Shop> shopList = (List<Shop>) request.getSession().getAttribute("shopList");
@@ -237,9 +239,10 @@ public class ShopManagementController {
             ShopExecution se;
             try {
                 if(shopImg == null){
-                    se = shopService.modifyShop(shop, null, null);
+                    se = shopService.modifyShop(shop, null);
                 }else {
-                    se = shopService.modifyShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+                    ImageHolder imageHolder = new ImageHolder(shopImg.getOriginalFilename(), shopImg.getInputStream());
+                    se = shopService.modifyShop(shop, imageHolder);
                 }
 
                 if (se.getState() == ShopStateEnum.SUCCESS.getState()){
@@ -261,29 +264,4 @@ public class ShopManagementController {
         }
     }
 
-//    废弃
-//    private static void inputStreamToFile(InputStream ins, File file){
-//        FileOutputStream os = null;
-//        try{
-//            os = new FileOutputStream(file);
-//            int bytesRead = 0;
-//            byte[] buffer = new byte[1024];
-//            while((bytesRead = ins.read(buffer)) != -1){
-//                os.write(buffer, 0, bytesRead);
-//            }
-//        }catch (Exception e){
-//            throw  new RuntimeException("调用inputStreamToFile产生异常" + e.getMessage());
-//        }finally {
-//            try {
-//                if(os != null){
-//                    os.close();
-//                }
-//                if (ins != null){
-//                    ins.close();
-//                }
-//            }catch (IOException e){
-//                throw new RuntimeException("inputStreamToFile关闭IO产生异常" + e.getMessage());
-//            }
-//        }
-//    }
 }

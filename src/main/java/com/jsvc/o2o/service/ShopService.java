@@ -1,5 +1,6 @@
 package com.jsvc.o2o.service;
 
+import com.jsvc.o2o.dto.ImageHolder;
 import com.jsvc.o2o.dto.ShopExecution;
 import com.jsvc.o2o.entity.Shop;
 
@@ -25,20 +26,18 @@ public interface ShopService {
     /**
      * 修改店铺信息，包括对图片的处理
      * @param shop
-     * @param shopImgInputStream
-     * @param fileName
+     * @param thumbnail
      * @return
      */
-    ShopExecution modifyShop(Shop shop, InputStream shopImgInputStream, String fileName);
+    ShopExecution modifyShop(Shop shop, ImageHolder thumbnail);
 
     /**
      * 添加店铺信息，包括对图片的处理
      * @param shop
-     * @param shopImgImpugStream
-     * @param fileName
+     * @param thumbnail
      * @return
      */
-    ShopExecution addShop(Shop shop, InputStream shopImgImpugStream, String fileName);
+    ShopExecution addShop(Shop shop, ImageHolder thumbnail);
 
 
 }

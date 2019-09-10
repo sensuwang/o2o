@@ -1,6 +1,7 @@
 package com.jsvc.o2o.service.impl;
 
 import com.jsvc.o2o.BaseTest;
+import com.jsvc.o2o.dto.ImageHolder;
 import com.jsvc.o2o.dto.ShopExecution;
 import com.jsvc.o2o.entity.Area;
 import com.jsvc.o2o.entity.PersonInfo;
@@ -46,7 +47,8 @@ public class ShopServiceImplTest extends BaseTest {
         shop.setEnableStatus(ShopStateEnum.CHECK.getState());
         File shopImg = new File("D:\\projectdev\\2.png");
         InputStream is = new FileInputStream(shopImg);
-        ShopExecution shopExecution = shopService.addShop(shop, is, shopImg.getName());
+        ImageHolder imageHolder = new ImageHolder(shopImg.getName(), is);
+        ShopExecution shopExecution = shopService.addShop(shop, imageHolder);
         assertEquals(ShopStateEnum.CHECK.getState(), shopExecution.getState());
     }
 
@@ -56,7 +58,8 @@ public class ShopServiceImplTest extends BaseTest {
         shop.setShopId(34L);
         shop.setShopName("店铺修改测试");
         InputStream is = new FileInputStream(new File("D:\\projectdev\\DSC_0163.JPG"));
-        ShopExecution shopExecution = shopService.modifyShop(shop, is, "DSC_0163.JPG");
+        ImageHolder imageHolder = new ImageHolder("DSC_0163.JPG", is);
+        ShopExecution shopExecution = shopService.modifyShop(shop, imageHolder);
         System.out.println(shopExecution.getShop().getShopImg());
 
     }
