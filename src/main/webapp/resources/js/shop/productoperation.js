@@ -1,6 +1,5 @@
 $(function () {
     var productId = getQueryString('productId');
-    var shpId = 8;
     var infoUrl = '/shopadmin/getproductbyid?productId=' + productId;
     var categoryUrl = '/shopadmin/getproductcategorylist';
     var productPostUrl = '/shopadmin/modifyproduct';

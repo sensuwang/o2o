@@ -10,6 +10,7 @@ import com.jsvc.o2o.entity.ProductImg;
 import com.jsvc.o2o.enums.ProductStateEnum;
 import com.jsvc.o2o.service.ProductService;
 import com.jsvc.o2o.util.ImageUtil;
+import com.jsvc.o2o.util.PageCalculator;
 import com.jsvc.o2o.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,12 +35,20 @@ public class productServiceImpl implements ProductService {
 
     @Override
     public ProductExecution getProductList(Product productCondition, int pageIndex, int pageSize) {
-        return null;
+        //将页码转换为数据库的行数，然后调用dao取到指定页码的商品列表
+        int rowIndex = PageCalculator.calculateRowIndex(pageIndex, pageSize);
+        List<Product> productList = productDao.queryProductList(productCondition, rowIndex, pageSize);
+        //基于同样条件返回该查询条件下的商品总数
+        int count = productDao.queryProductCount(productCondition);
+        ProductExecution pe = new ProductExecution();
+        pe.setProductList(productList);
+        pe.setCount(count);
+        return pe;
     }
 
     @Override
     public Product getProductById(long productId) {
-        return null;
+        return productDao.queryProductById(productId);
     }
 
     @Override
@@ -109,18 +118,6 @@ public class productServiceImpl implements ProductService {
     }
 
     /**
-     * 缩略图的处理（上传并传回product中）
-     *
-     * @param product
-     * @param thumbnail
-     */
-    private void addThumbnail(Product product, ImageHolder thumbnail) {
-        String dest = PathUtil.getShopImagePath(product.getShop().getShopId());
-        String thumbnailAddr = ImageUtil.generateThumbnail(thumbnail, dest);
-        product.setImgAddr(thumbnailAddr);
-    }
-
-    /**
      * 上传商品详细图片
      *
      * @param product
@@ -149,6 +146,22 @@ public class productServiceImpl implements ProductService {
         }
     }
 
+    /**
+     * 缩略图的处理（上传并传回product中）
+     *
+     * @param product
+     * @param thumbnail
+     */
+    private void addThumbnail(Product product, ImageHolder thumbnail) {
+        String dest = PathUtil.getShopImagePath(product.getShop().getShopId());
+        String thumbnailAddr = ImageUtil.generateThumbnail(thumbnail, dest);
+        product.setImgAddr(thumbnailAddr);
+    }
+
+    /**
+     * 删除详细图片信息
+     * @param productId
+     */
     private void deleteProductImgList(long productId) {
         //根据productId获取原来的图片
         List<ProductImg> productImgList = productImgDao.queryProductImgList(productId);

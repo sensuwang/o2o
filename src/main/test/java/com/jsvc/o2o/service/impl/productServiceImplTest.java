@@ -8,6 +8,7 @@ import com.jsvc.o2o.entity.ProductCategory;
 import com.jsvc.o2o.entity.Shop;
 import com.jsvc.o2o.enums.ProductStateEnum;
 import com.jsvc.o2o.service.ProductService;
+import com.mchange.v2.c3p0.stmt.PerConnectionMaxOnlyStatementCache;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -66,6 +67,28 @@ public class productServiceImplTest extends BaseTest {
     }
 
     @Test
-    public void modifyProduct() {
+    public void modifyProduct() throws FileNotFoundException {
+        Product product = new Product();
+        product.setProductId(22L);
+        Shop shop = new Shop();
+        shop.setShopId(15L);
+        product.setShop(shop);
+        product.setProductName("正式的商品");
+
+        File shopImg = new File("D:\\projectdev\\2.png");
+        InputStream is = new FileInputStream(shopImg);
+        ImageHolder thumbnail = new ImageHolder(shopImg.getName(), is);
+
+        File productImg = new File("D:\\projectdev\\2.png");
+        InputStream is1 = new FileInputStream(shopImg);
+        File productImg2 = new File("D:\\projectdev\\2.png");
+        InputStream is2 = new FileInputStream(shopImg);
+        List<ImageHolder> imageHolderList = new ArrayList<>();
+        imageHolderList.add(new ImageHolder(productImg.getName(), is1));
+        imageHolderList.add(new ImageHolder(productImg.getName(), is2));
+
+        ProductExecution pe = productService.modifyProduct(product, thumbnail, imageHolderList);
+        assertEquals(ProductStateEnum.SUCCESS.getState(), pe.getState());
+
     }
 }
