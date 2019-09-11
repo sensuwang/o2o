@@ -1,5 +1,6 @@
 package com.jsvc.o2o.util;
 
+import ch.qos.logback.core.util.FileUtil;
 import com.jsvc.o2o.dto.ImageHolder;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
@@ -61,6 +62,31 @@ public class ImageUtil {
                     .outputQuality(0.8f).toFile(dest);
         }catch (IOException e){
             e.printStackTrace();
+        }
+        return relativeAddr;
+    }
+
+    /**
+     * 处理图片详情，并返回新生成图片的相对值路径
+     * @param thumbnail
+     * @param targetAddr
+     * @return
+     */
+    public static String generateNormalImg(ImageHolder thumbnail, String targetAddr) {
+        //获取不重复的随即名
+        String realFileName = getRandomFileName();
+        //获取文件的拓展名如jpg,png等
+        String extension = getFileExtension(thumbnail.getImageName());
+        //如果文件不存在，则自动创建
+        makeDirPath(targetAddr);
+        //文件存储的相对路径（带文件名）
+        String relativeAddr = targetAddr + realFileName + extension;
+        File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
+        //调用Thumbnails生成有水印的图片
+        try {
+            Thumbnails.of(thumbnail.getImage()).size(337, 640).outputQuality(0.5f).toFile(dest);
+        } catch (IOException e) {
+            throw new RuntimeException("创建缩略图失败：" + e.toString());
         }
         return relativeAddr;
     }

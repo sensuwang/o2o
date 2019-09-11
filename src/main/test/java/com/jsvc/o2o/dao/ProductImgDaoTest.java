@@ -34,4 +34,16 @@ public class ProductImgDaoTest extends BaseTest {
         int effectedNum = productImgDao.batchInsertProductImg(productImgList);
         assertEquals(2, effectedNum);
     }
+
+    @Test
+    public void deleteProductImgByProductId() {
+        int effectedNum = productImgDao.deleteProductImgByProductId(4L);
+        assertEquals(2, effectedNum);
+    }
+
+    @Test
+    public void queryProductImgList() {
+        List<ProductImg> productImgList = productImgDao.queryProductImgList(22L);
+        assertEquals(2, productImgList.size());
+    }
 }

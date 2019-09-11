@@ -11,6 +11,11 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 public interface ProductService {
     ProductExecution getProductList(Product productCondition, int pageIndex, int pageSize);
 
+    /**
+     * 通过商品id查询唯一的商品信息
+     * @param productId
+     * @return
+     */
     Product getProductById(long productId);
 
     /**
@@ -25,6 +30,14 @@ public interface ProductService {
     ProductExecution addProduct(Product product, ImageHolder thumbnail,
                                 List<ImageHolder> productImgList) throws RuntimeException;
 
+    /**
+     * 修改商品信息的方法
+     * @param product
+     * @param thumbnail
+     * @param productImgs
+     * @return
+     * @throws RuntimeException
+     */
     ProductExecution modifyProduct(Product product, ImageHolder thumbnail,
                                    List<ImageHolder> productImgs) throws RuntimeException;
 }
