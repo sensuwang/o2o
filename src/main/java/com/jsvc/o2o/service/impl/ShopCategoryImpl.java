@@ -17,6 +17,7 @@ import java.util.List;
 public class ShopCategoryImpl implements ShopCategoryService {
     @Autowired
     private ShopCategoryDao shopCategoryDao;
+
     @Override
     public List<ShopCategory> getShopCategoryList(ShopCategory shopCategoryCondition) {
         return shopCategoryDao.queryShopCategory(shopCategoryCondition);

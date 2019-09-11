@@ -21,5 +21,9 @@ public class ShopCategoryDaoTest extends BaseTest {
         shopCategory.setParent(parent);
         List<ShopCategory> shopCategoryList = shopCategoryDao.queryShopCategory(new ShopCategory());
         System.out.println(shopCategoryList.size());
+
+        //测试parentId为null的情况
+        shopCategoryList = shopCategoryDao.queryShopCategory(null);
+        System.out.println(shopCategoryList.size());
     }
 }
