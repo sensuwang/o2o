@@ -3,14 +3,14 @@ $(function() {
 	var maxItems = 20;
 	var pageSize = 10;
 
-	var listUrl = '/myo2o/frontend/listproductsbyshop';
+	var listUrl = '/frontend/listproductsbyshop';
 
 	var pageNum = 1;
 	var shopId = getQueryString('shopId');
 	var productCategoryId = '';
 	var productName = '';
 
-	var searchDivUrl = '/myo2o/frontend/listshopdetailpageinfo?shopId='
+	var searchDivUrl = '/frontend/listshopdetailpageinfo?shopId='
 			+ shopId;
 
 	function getSearchDivData() {
@@ -77,10 +77,11 @@ $(function() {
 				$('.list-div').append(html);
 				var total = $('.list-div .card').length;
 				if (total >= maxItems) {
-					// 加载完毕，则注销无限加载事件，以防不必要的加载
-					$.detachInfiniteScroll($('.infinite-scroll'));
-					// 删除加载提示符
-					$('.infinite-scroll-preloader').remove();
+					// 隐藏加载提示符
+					$('.infinite-scroll-preloader').hide();
+				}else{
+                    // 加载完毕，则注销无限加载事件，以防不必要的加载
+                    $('.infinite-scroll-preloader').show();
 				}
 				pageNum += 1;
 				loading = false;
@@ -122,11 +123,11 @@ $(function() {
 					'.card',
 					function(e) {
 						var productId = e.currentTarget.dataset.productId;
-						window.location.href = '/myo2o/frontend/productdetail?productId='
+						window.location.href = '/frontend/productdetail?productId='
 								+ productId;
 					});
 
-	$('#search').on('input', function(e) {
+	$('#search').on('change', function(e) {
 		productName = e.target.value;
 		$('.list-div').empty();
 		pageNum = 1;
